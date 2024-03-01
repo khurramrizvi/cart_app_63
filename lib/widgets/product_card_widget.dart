@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cart_app/models/products_model.dart';
+import 'package:cart_app/providers/cart.provider.dart';
 import 'package:cart_app/utilities/extensions.dart';
 import 'package:cart_app/widgets/counter/counter_widget.dart';
 import 'package:flutter/material.dart';
@@ -137,8 +138,24 @@ class ProductCardWidget extends ConsumerWidget {
             right: 8,
             child: CounterWidget(
               productId: product.id!,
-              onIncrement: (p0) {},
-              onDecrement: (p0) {},
+              onIncrement: (val) {
+                ref.read(cartProvider.notifier).addItem(
+                      product.copyWith(
+                        Product(
+                          quantity: val,
+                        ),
+                      ),
+                    );
+              },
+              onDecrement: (val) {
+                ref.read(cartProvider.notifier).removeItem(
+                      product.copyWith(
+                        Product(
+                          quantity: val,
+                        ),
+                      ),
+                    );
+              },
             ),
           ),
         ],

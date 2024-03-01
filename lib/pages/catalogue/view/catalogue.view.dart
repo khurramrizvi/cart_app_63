@@ -1,5 +1,6 @@
 import 'package:cart_app/pages/cart/view/cart.view.dart';
 import 'package:cart_app/pages/catalogue/controller/catalogue.controller.dart';
+import 'package:cart_app/providers/cart.provider.dart';
 import 'package:cart_app/utilities/enums.dart';
 import 'package:cart_app/widgets/product_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,11 @@ class _CatalogueViewState extends ConsumerState<CatalogueView> {
               },
               child: Badge(
                 backgroundColor: Colors.pink.shade500,
-                label: const Text('01'),
+                label: Text(
+                  ref.watch(cartProvider).totalQuantity < 10
+                      ? '0${ref.watch(cartProvider).totalQuantity.toString()}'
+                      : ref.watch(cartProvider).totalQuantity.toString(),
+                ),
                 smallSize: 18,
                 largeSize: 18,
                 child: const Icon(

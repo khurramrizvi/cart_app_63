@@ -73,6 +73,7 @@ class _CounterWidgetState extends ConsumerState<CounterWidget> {
       child: GestureDetector(
         onTap: () {
           ref.read(counterProvider(widget.productId).notifier).increment();
+          widget.onIncrement(ref.read(counterProvider(widget.productId)));
         },
         child: Container(
           width: 83,

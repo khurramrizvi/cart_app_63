@@ -1,3 +1,4 @@
+import 'package:cart_app/providers/cart.provider.dart';
 import 'package:cart_app/utilities/extensions.dart';
 import 'package:cart_app/widgets/product_tile_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,12 @@ class Cart extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _CartState();
 }
 
+//todo: update cart page, counter not working correctly
+
 class _CartState extends ConsumerState<Cart> {
   @override
   Widget build(BuildContext context) {
+    final cartRef = ref.watch(cartProvider);
     return Scaffold(
       backgroundColor: Colors.red.shade50,
       appBar: AppBar(
@@ -33,9 +37,11 @@ class _CartState extends ConsumerState<Cart> {
         ],
       ),
       body: ListView.separated(
-        itemCount: 100,
+        itemCount: ref.read(cartProvider).productList!.length,
         itemBuilder: (context, index) {
-          return const ProductTileWidget();
+          return ProductTileWidget(
+            product: ref.read(cartProvider).productList![index],
+          );
         },
         separatorBuilder: (context, index) {
           return const SizedBox(
@@ -69,7 +75,7 @@ class _CartState extends ConsumerState<Cart> {
                       height: 6,
                     ),
                     Text(
-                      3000.inRupees,
+                      cartRef.totalCost.inRupees,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 30,
@@ -119,10 +125,10 @@ class _CartState extends ConsumerState<Cart> {
                           color: Colors.white.withOpacity(0.9),
                           shape: BoxShape.circle,
                         ),
-                        child: const Text(
-                          '999',
+                        child: Text(
+                          cartRef.totalQuantity.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.pink,
                             fontSize: 16,
                             letterSpacing: 0.7,

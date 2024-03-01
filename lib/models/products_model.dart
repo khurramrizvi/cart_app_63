@@ -32,6 +32,7 @@ class Product {
   String? category;
   String? thumbnail;
   List<String>? images;
+  int quantity;
 
   Product({
     this.id,
@@ -45,7 +46,25 @@ class Product {
     this.category,
     this.thumbnail,
     this.images,
+    this.quantity = 0,
   });
+
+  Product copyWith(Product product) {
+    return Product(
+      brand: product.brand ?? brand,
+      category: product.category ?? category,
+      description: product.description ?? description,
+      discountPercentage: product.discountPercentage ?? discountPercentage,
+      id: product.id ?? id,
+      images: product.images ?? images,
+      price: product.price ?? price,
+      quantity: product.quantity,
+      rating: product.rating ?? rating,
+      stock: product.stock ?? stock,
+      thumbnail: product.thumbnail ?? thumbnail,
+      title: product.title ?? title,
+    );
+  }
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

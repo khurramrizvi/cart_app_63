@@ -1,11 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cart_app/models/products_model.dart';
 import 'package:cart_app/utilities/extensions.dart';
 import 'package:cart_app/widgets/counter/counter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductTileWidget extends ConsumerStatefulWidget {
-  const ProductTileWidget({super.key});
+  final Product product;
+  const ProductTileWidget({
+    required this.product,
+    super.key,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -36,10 +41,10 @@ class _ProductTileWidgetState extends ConsumerState<ProductTileWidget> {
                 width: 0.1,
                 color: Colors.grey.shade500,
               ),
-              image: const DecorationImage(
+              image: DecorationImage(
                 fit: BoxFit.cover,
                 image: CachedNetworkImageProvider(
-                  "https://cdn.dummyjson.com/product-images/8/thumbnail.jpg",
+                  widget.product.thumbnail!,
                   maxHeight: 200,
                   maxWidth: 200,
                 ),
@@ -55,23 +60,23 @@ class _ProductTileWidgetState extends ConsumerState<ProductTileWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 200,
                     child: Text(
-                      'HP Pavilion 15-DK1056WM sd ad a d ',
+                      widget.product.title!,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         letterSpacing: 0.7,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
-                  const Text(
-                    "HP Pavilion",
+                  Text(
+                    widget.product.brand!,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       letterSpacing: 0.7,
                       fontWeight: FontWeight.w300,
@@ -81,7 +86,11 @@ class _ProductTileWidgetState extends ConsumerState<ProductTileWidget> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 1200.inRupees,
+                          text: (widget.product.price! +
+                                  widget.product.price! *
+                                      widget.product.discountPercentage! /
+                                      100)
+                              .inRupees,
                           style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 9,
@@ -96,7 +105,7 @@ class _ProductTileWidgetState extends ConsumerState<ProductTileWidget> {
                           text: ' ',
                         ),
                         TextSpan(
-                          text: 1099.inRupees,
+                          text: widget.product.price.inRupees,
                           style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 12,
@@ -109,7 +118,7 @@ class _ProductTileWidgetState extends ConsumerState<ProductTileWidget> {
                     ),
                   ),
                   Text(
-                    '12% OFF',
+                    '${widget.product.discountPercentage}% OFF',
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 12,
@@ -124,7 +133,7 @@ class _ProductTileWidgetState extends ConsumerState<ProductTileWidget> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: CounterWidget(
-                      productId: 2,
+                      productId: widget.product.id!,
                       onIncrement: (p0) {},
                       onDecrement: (p0) {},
                     ),
