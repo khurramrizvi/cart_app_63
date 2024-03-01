@@ -22,6 +22,16 @@ class _CatalogueViewState extends ConsumerState<CatalogueView> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(catalogueControllerProvider.notifier).fetchCatalogues();
+      controller.addListener(() async {
+        if (ref.read(catalogueControllerProvider).status ==
+            ScreenStatus.ready) {
+          if (controller.offset >= controller.position.maxScrollExtent) {
+            await ref
+                .read(catalogueControllerProvider.notifier)
+                .fetchMoreProduct();
+          }
+        }
+      });
     });
   }
 
@@ -56,7 +66,8 @@ class _CatalogueViewState extends ConsumerState<CatalogueView> {
         ],
       ),
       body: Visibility(
-        visible: catalogueRef.status == ScreenStatus.ready,
+        visible: catalogueRef.status == ScreenStatus.ready ||
+            catalogueRef.status == ScreenStatus.fetchingMore,
         replacement: Visibility(
           visible: catalogueRef.status == ScreenStatus.loading,
           replacement: const Center(
@@ -83,6 +94,20 @@ class _CatalogueViewState extends ConsumerState<CatalogueView> {
               product: catalogueRef.productList![index],
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Visibility(
+        visible: catalogueRef.status == ScreenStatus.fetchingMore,
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(
+                color: Colors.pink,
+              ),
+            ),
+          ],
         ),
       ),
     );

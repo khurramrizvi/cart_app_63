@@ -21,6 +21,9 @@ class CatalogueController extends StateNotifier<CatalogueModel> {
     required this.providerRef,
   }) : super(CatalogueModel());
 
+  int skip = 0;
+  int total = 0;
+
   Future<void> fetchCatalogues() async {
     try {
       state = CatalogueModel(
@@ -30,6 +33,7 @@ class CatalogueController extends StateNotifier<CatalogueModel> {
       Products? productsList = await service.getProductList();
 
       if (productsList != null) {
+        total = productsList.total!;
         state = CatalogueModel(
           status: ScreenStatus.ready,
           productList: productsList.products,
@@ -51,11 +55,31 @@ class CatalogueController extends StateNotifier<CatalogueModel> {
 
   Future<void> fetchMoreProduct() async {
     try {
+      if (skip == total) {
+        state = CatalogueModel(
+          status: ScreenStatus.ready,
+          productList: state.productList!,
+        );
+        return;
+      }
+      skip += 20;
       state = CatalogueModel(
         status: ScreenStatus.fetchingMore,
-        productList: [...state.productList!],
+        productList: state.productList!,
       );
-      Products? productsList = await service.getProductList();
+
+      Products? productsList = await service.getProductList(
+        skip: skip,
+      );
+      if (productsList != null) {
+        state = CatalogueModel(
+          status: ScreenStatus.ready,
+          productList: [
+            ...state.productList!,
+            ...productsList.products!,
+          ],
+        );
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
