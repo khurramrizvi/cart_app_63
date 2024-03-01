@@ -15,11 +15,11 @@ class Http {
       ),
     );
 
-  static Dio get artworkEndpoint => _dio
+  static Dio get productsEndpoint => _dio
     ..interceptors.addAll([
       InterceptorsWrapper(
         onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-          options.baseUrl = 'https://api.artic.edu/api/v1';
+          options.baseUrl = 'https://dummyjson.com/products';
           return handler.next(options);
         },
         onResponse: (Response response, ResponseInterceptorHandler handler) {
