@@ -2,6 +2,7 @@ import 'package:cart_app/pages/cart/view/cart.view.dart';
 import 'package:cart_app/pages/catalogue/controller/catalogue.controller.dart';
 import 'package:cart_app/providers/cart.provider.dart';
 import 'package:cart_app/utilities/enums.dart';
+import 'package:cart_app/widgets/catalogue_loading.dart';
 import 'package:cart_app/widgets/product_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -78,11 +79,7 @@ class _CatalogueViewState extends ConsumerState<CatalogueView> {
           replacement: const Center(
             child: Text('Error Fetching Data'),
           ),
-          child: Center(
-            child: CircularProgressIndicator(
-              color: Colors.pink.shade400,
-            ),
-          ),
+          child: const CatalogueLoading(),
         ),
         child: Container(
           padding: const EdgeInsets.all(4),
