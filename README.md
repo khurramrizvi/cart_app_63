@@ -38,6 +38,11 @@ https://dummyjson.com/products
 5. Riverpod based state management
 6. API caching on Isar Store
 
+### Downloadable APK
+1. [APK arm64](https://github.com/khurramrizvi/cart_app_63/blob/main/release/apk/app-arm64-v8a-release.apk) -> Latest Android Devices
+2. [APK armeabi](https://github.com/khurramrizvi/cart_app_63/blob/main/release/apk/app-armeabi-v7a-release.apk) -> Older Android Devices
+3. [APK x86_64](https://github.com/khurramrizvi/cart_app_63/blob/main/release/apk/app-x86_64-release.apk) -> Intel based CPU Android Devices
+
 ### Screens
 | Loading   | Catalogue   | Cart Screen                            | Cart Empty             |
 |---        |---          |---                      |---
