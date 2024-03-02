@@ -84,7 +84,10 @@ class _CartState extends ConsumerState<Cart> {
         ),
       ),
       bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
         child: Container(
           color: Colors.white,
           padding: const EdgeInsets.all(16),
