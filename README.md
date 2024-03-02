@@ -1,4 +1,4 @@
-# cart_app
+# cart_app_63
 
 Flutter project to implement cart feature.
 
@@ -14,4 +14,31 @@ Flutter project to implement cart feature.
 
 ### Implementation Details
 
-TODO: add details here
+### UI Inspiration
+- https://play.google.com/store/apps/details?id=com.myntra.android&hl=en&gl=US
+- https://dribbble.com/shots/15498647-Skincare-Mobile-App
+
+### API
+#### Dummy Products Paginated API
+https://dummyjson.com/products
+
+### Technicals
+1. Flutter
+2. Riverpod
+3. Dio
+4. APIs 
+5. Clean Project Structure
+6. GoRouter
+
+## Feature List
+1. Pixel Perfect UI
+2. API Integration
+3. Paginated API
+4. Minimal 3rd party dependencies
+5. Riverpod based state management
+6. API caching on Isar Store
+
+### Screens
+| Loading   | Catalogue   | Cart Screen                            | Cart Empty             |
+|---        |---          |---                      |---
+| <img src="ss/1.png"> | <img src="ss/2.png"> | <img src="ss/3.png">   | <img src="ss/4.png"> 
