@@ -12,8 +12,6 @@ class Cart extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _CartState();
 }
 
-//todo: update cart page, counter not working correctly
-
 class _CartState extends ConsumerState<Cart> {
   @override
   Widget build(BuildContext context) {
@@ -23,31 +21,67 @@ class _CartState extends ConsumerState<Cart> {
       appBar: AppBar(
         title: const Text('Cart'),
         centerTitle: true,
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 16),
-            child: GestureDetector(
-              onTap: () {},
-              child: const Icon(
-                Icons.delete_outline_rounded,
-                size: 30,
+      ),
+      body: Visibility(
+        visible: cartRef.productList?.length != 0,
+        replacement: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.pink.shade100,
+              ),
+              child: Icon(
+                Icons.remove_shopping_cart_outlined,
+                size: 80,
+                color: Colors.pink.shade400,
               ),
             ),
-          )
-        ],
-      ),
-      body: ListView.separated(
-        itemCount: ref.read(cartProvider).productList!.length,
-        itemBuilder: (context, index) {
-          return ProductTileWidget(
-            product: ref.read(cartProvider).productList![index],
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const SizedBox(
-            height: 8,
-          );
-        },
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'It feels lonely!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.pink.shade300,
+                fontSize: 18,
+                letterSpacing: 0.7,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              'There is nothing in your cart. Let\'s add some items.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.pink.shade300,
+                fontSize: 12,
+                letterSpacing: 0.7,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+        child: ListView.separated(
+          itemCount: cartRef.productList?.length ?? 0,
+          itemBuilder: (context, index) {
+            return ProductTileWidget(
+              product: cartRef.productList![index],
+            );
+          },
+          separatorBuilder: (context, index) {
+            return const SizedBox(
+              height: 8,
+            );
+          },
+        ),
       ),
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.circular(16),

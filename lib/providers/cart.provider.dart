@@ -38,25 +38,38 @@ class CartProvider extends StateNotifier<CartModel> {
   //remove item from cart
   void removeItem(Product product) {
     List<Product> list = [];
-    if (state.productList != null) {
-      list = state.productList!;
-      if (list.any((element) => element.id == product.id)) {
-        list[list.indexWhere((element) => element.id == product.id)] = product;
-      } else {
-        list.remove(product);
-      }
+
+    if (product.quantity == 0) {
+      state.productList?.removeWhere((element) => element.id == product.id);
       state = CartModel(
-        productList: list,
-        totalCost: _getTotalPrice(list),
-        totalQuantity: _getTotalQuantity(list),
+        productList: state.productList,
+        totalCost: _getTotalPrice(state.productList!),
+        totalQuantity: _getTotalQuantity(state.productList!),
       );
+    } else {
+      if (state.productList != null) {
+        list = state.productList!;
+        if (list.any((element) => element.id == product.id)) {
+          list[list.indexWhere((element) => element.id == product.id)] =
+              product;
+        } else {
+          list.remove(product);
+        }
+        state = CartModel(
+          productList: list,
+          totalCost: _getTotalPrice(list),
+          totalQuantity: _getTotalQuantity(list),
+        );
+      }
     }
   }
 
   num _getTotalPrice(List<Product> list) {
     num totalPrice = 0.0;
     list.forEach((element) {
-      totalPrice += element.price!;
+      totalPrice += (element.price! -
+              (element.price! * element.discountPercentage! / 100)) *
+          element.quantity;
     });
     return totalPrice;
   }

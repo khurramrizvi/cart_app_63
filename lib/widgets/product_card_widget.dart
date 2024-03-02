@@ -83,11 +83,7 @@ class ProductCardWidget extends ConsumerWidget {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: (product.price! +
-                                            product.price! *
-                                                product.discountPercentage! /
-                                                100)
-                                        .inRupees,
+                                    text: product.price!.inRupees,
                                     style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       fontSize: 9,
@@ -102,7 +98,11 @@ class ProductCardWidget extends ConsumerWidget {
                                     text: ' ',
                                   ),
                                   TextSpan(
-                                    text: product.price!.inRupees,
+                                    text: (product.price! -
+                                            product.price! *
+                                                product.discountPercentage! /
+                                                100)
+                                        .inRupees,
                                     style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       fontSize: 12,

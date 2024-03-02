@@ -78,8 +78,10 @@ class _CatalogueViewState extends ConsumerState<CatalogueView> {
           replacement: const Center(
             child: Text('Error Fetching Data'),
           ),
-          child: const Center(
-            child: CircularProgressIndicator(),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: Colors.pink.shade400,
+            ),
           ),
         ),
         child: Container(

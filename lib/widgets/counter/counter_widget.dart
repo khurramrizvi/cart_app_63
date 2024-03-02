@@ -39,7 +39,7 @@ class _CounterWidgetState extends ConsumerState<CounterWidget> {
                 ref
                     .read(counterProvider(widget.productId).notifier)
                     .decrement();
-                widget.onIncrement(ref.read(counterProvider(widget.productId)));
+                widget.onDecrement(ref.read(counterProvider(widget.productId)));
               },
               child: const Icon(
                 Icons.remove,

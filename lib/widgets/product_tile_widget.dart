@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cart_app/models/products_model.dart';
+import 'package:cart_app/providers/cart.provider.dart';
 import 'package:cart_app/utilities/extensions.dart';
 import 'package:cart_app/widgets/counter/counter_widget.dart';
 import 'package:flutter/material.dart';
@@ -86,11 +87,7 @@ class _ProductTileWidgetState extends ConsumerState<ProductTileWidget> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: (widget.product.price! +
-                                  widget.product.price! *
-                                      widget.product.discountPercentage! /
-                                      100)
-                              .inRupees,
+                          text: widget.product.price!.inRupees,
                           style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 9,
@@ -105,7 +102,11 @@ class _ProductTileWidgetState extends ConsumerState<ProductTileWidget> {
                           text: ' ',
                         ),
                         TextSpan(
-                          text: widget.product.price.inRupees,
+                          text: (widget.product.price! -
+                                  widget.product.price! *
+                                      widget.product.discountPercentage! /
+                                      100)
+                              .inRupees,
                           style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 12,
@@ -128,14 +129,30 @@ class _ProductTileWidgetState extends ConsumerState<ProductTileWidget> {
                     ),
                   ),
                   const SizedBox(
-                    height: 6,
+                    height: 30,
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: CounterWidget(
                       productId: widget.product.id!,
-                      onIncrement: (p0) {},
-                      onDecrement: (p0) {},
+                      onIncrement: (val) {
+                        ref.read(cartProvider.notifier).addItem(
+                              widget.product.copyWith(
+                                Product(
+                                  quantity: val,
+                                ),
+                              ),
+                            );
+                      },
+                      onDecrement: (val) {
+                        ref.read(cartProvider.notifier).removeItem(
+                              widget.product.copyWith(
+                                Product(
+                                  quantity: val,
+                                ),
+                              ),
+                            );
+                      },
                     ),
                   )
                 ],
